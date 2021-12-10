@@ -1,21 +1,19 @@
 package com.raqueveque.restoprototype
 
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.init
 
 class FoodAdapter (private val context: Context): RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
-
+    private var comm: Comm? = null
     private var dataList = mutableListOf<Food>()
 
     fun setListData(data: MutableList<Food>){
@@ -28,16 +26,17 @@ class FoodAdapter (private val context: Context): RecyclerView.Adapter<FoodAdapt
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+
         val currentItem = dataList[position]
         holder.bindView(currentItem)
         holder.itemView.setOnClickListener {
+            comm = context as Comm
             val bundle = Bundle()
             bundle.putString("name", currentItem.name)
             bundle.putString("description", currentItem.description)
             bundle.putString("image", currentItem.image)
             bundle.putString("price", currentItem.price)
-            DetailsFragment().arguments = bundle
-            
+            comm?.comm(bundle)
         }
     }
 

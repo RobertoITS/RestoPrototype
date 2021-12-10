@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raqueveque.restoprototype.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), Comm{
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: FoodAdapter
     private val viewModel by lazy { ViewModelProviders.of(this).get(FoodViewModel::class.java) }
@@ -31,6 +31,13 @@ class MainActivity : AppCompatActivity(){
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
         })
+    }
+
+    override fun comm(bundle: Bundle) {
+        DetailsFragment().arguments = bundle
+        val frag = supportFragmentManager.beginTransaction()
+        frag.add(R.id.frag, DetailsFragment())
+            .commit()
     }
 
 }
